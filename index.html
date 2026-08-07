@@ -33,6 +33,10 @@
       .machine-name { font-size:23px; font-weight:800; letter-spacing:-.04em; }
       .arrow { color:var(--blue); font-size:24px; }
       .machine p { margin:12px 0 0; color:var(--muted); font-size:14px; }
+      .machine-detail { min-height:560px; }
+      .back { display:inline-flex; align-items:center; gap:8px; margin-bottom:26px; border:0; padding:0; color:var(--blue); background:transparent; cursor:pointer; font-weight:700; font-size:14px; }
+      .detail-title { margin:0 0 8px; font-size:clamp(32px,5vw,48px); letter-spacing:-.05em; }
+      .detail-intro { margin:0 0 28px; color:var(--muted); }
       .filters { display:flex; flex-wrap:wrap; gap:8px; }
       .filter { border:1px solid var(--line); border-radius:100px; padding:8px 13px; color:#46536a; background:#fff; cursor:pointer; font-size:14px; }
       .filter:hover,.filter.active { color:#fff; border-color:var(--navy); background:var(--navy); }
@@ -56,22 +60,29 @@
       <p class="intro">고장 증상과 에러 코드를 검색해, 현장에서 바로 대응하세요.</p>
     </header>
     <main>
-      <section class="search-panel" aria-label="매뉴얼 검색">
-        <label class="search-label" for="search">무엇이 문제인가요?</label>
-        <div class="search-wrap"><span class="search-icon">⌕</span><input id="search" type="search" placeholder="증상, 에러 코드, 부품명을 입력하세요" autocomplete="off" /></div>
-        <p class="hint">예: 전원이 켜지지 않음 · 통신 오류 · 센서 · E-102</p>
-      </section>
-
-      <section>
-        <div class="section-heading"><h2>기계 선택</h2><span class="count">기계를 선택해 결과를 좁힐 수 있습니다.</span></div>
-        <div class="machine-grid">
-          <button class="machine" type="button" data-machine="M AI"><span class="machine-top"><span class="machine-name">M AI</span><span class="arrow">→</span></span><p>M AI 장비의 고장 증상과 대응 절차를 확인합니다.</p></button>
-          <button class="machine" type="button" data-machine="MillFix"><span class="machine-top"><span class="machine-name">MillFix</span><span class="arrow">→</span></span><p>MillFix 장비의 고장 증상과 대응 절차를 확인합니다.</p></button>
-        </div>
-      </section>
-
-      <section>
-        <div class="section-heading"><h2>빠른 매뉴얼 찾기</h2><span id="result-count" class="count"></span></div>
+      <div id="home-view">
+        <section class="search-panel" aria-label="전체 매뉴얼 검색">
+          <label class="search-label" for="home-search">무엇이 문제인가요?</label>
+          <div class="search-wrap"><span class="search-icon">⌕</span><input id="home-search" type="search" placeholder="증상, 에러 코드, 부품명을 입력하세요" autocomplete="off" /></div>
+          <p class="hint">검색어를 입력한 뒤 Enter를 누르세요.</p>
+        </section>
+        <section>
+          <div class="section-heading"><h2>기계 선택</h2></div>
+          <div class="machine-grid">
+            <button class="machine" type="button" data-machine="M AI"><span class="machine-top"><span class="machine-name">M AI</span><span class="arrow">→</span></span><p>M AI 장비의 고장 증상과 대응 절차를 확인합니다.</p></button>
+            <button class="machine" type="button" data-machine="MillFix"><span class="machine-top"><span class="machine-name">MillFix</span><span class="arrow">→</span></span><p>MillFix 장비의 고장 증상과 대응 절차를 확인합니다.</p></button>
+          </div>
+        </section>
+      </div>
+      <section id="machine-detail" class="machine-detail" hidden>
+        <button id="back-button" class="back" type="button">← 첫 화면으로</button>
+        <h2 id="detail-title" class="detail-title"></h2>
+        <p class="detail-intro">고장 증상, 에러 코드, 부품명으로 매뉴얼을 검색하세요.</p>
+        <section class="search-panel" aria-label="매뉴얼 검색">
+          <label class="search-label" for="search">매뉴얼 검색</label>
+          <div class="search-wrap"><span class="search-icon">⌕</span><input id="search" type="search" placeholder="증상, 에러 코드, 부품명을 입력하세요" autocomplete="off" /></div>
+        </section>
+        <div class="section-heading"><h2>매뉴얼 목록</h2><span id="result-count" class="count"></span></div>
         <div class="filters" aria-label="카테고리 필터">
           <button class="filter active" type="button" data-category="전체">전체</button><button class="filter" type="button" data-category="전원·통신">전원·통신</button><button class="filter" type="button" data-category="구동·모터">구동·모터</button><button class="filter" type="button" data-category="센서">센서</button><button class="filter" type="button" data-category="소프트웨어">소프트웨어</button>
         </div>
@@ -80,16 +91,10 @@
       <footer>GENCORE · 현장 대응 매뉴얼</footer>
     </main>
     <script>
-      const manuals = [
-        { machine:'M AI', category:'전원·통신', level:'긴급', title:'전원이 켜지지 않음', summary:'전원 공급과 비상정지 상태를 우선 점검합니다.', code:'PWR-001 · 전원부', keywords:'전원 전기 차단기 비상정지 켜지지' },
-        { machine:'M AI', category:'소프트웨어', level:'주의', title:'통신 연결 실패', summary:'네트워크 케이블과 장비 IP 설정을 확인합니다.', code:'E-102 · 통신', keywords:'통신 네트워크 랜 케이블 IP 연결 오류' },
-        { machine:'M AI', category:'센서', level:'일반', title:'센서 인식 오류', summary:'센서 오염과 커넥터 체결 상태를 확인합니다.', code:'SEN-013 · 센서', keywords:'센서 인식 감지 커넥터 오염' },
-        { machine:'MillFix', category:'구동·모터', level:'긴급', title:'스핀들 구동이 멈춤', summary:'과부하 알람과 모터 드라이버 상태를 확인합니다.', code:'E-301 · 스핀들', keywords:'스핀들 모터 구동 정지 과부하' },
-        { machine:'MillFix', category:'전원·통신', level:'주의', title:'제어 화면이 꺼짐', summary:'제어반 전원 및 화면 연결 상태를 점검합니다.', code:'PWR-014 · 제어반', keywords:'화면 모니터 전원 제어반 꺼짐' },
-        { machine:'MillFix', category:'센서', level:'일반', title:'원점 복귀가 되지 않음', summary:'리미트 센서와 축 이동 경로를 점검합니다.', code:'SEN-221 · 리미트', keywords:'원점 복귀 리미트 축 이동 센서' }
-      ];
+      const manuals = [];
       let selectedMachine = '', selectedCategory = '전체';
       const search = document.querySelector('#search'), list = document.querySelector('#manuals'), count = document.querySelector('#result-count');
+      const homeView = document.querySelector('#home-view'), detail = document.querySelector('#machine-detail'), detailTitle = document.querySelector('#detail-title');
       const levelClass = { 긴급:'urgent', 주의:'caution', 일반:'normal' };
       function render() {
         const term = search.value.trim().toLowerCase();
@@ -97,8 +102,31 @@
         count.textContent = `${visible.length}건의 매뉴얼`;
         list.innerHTML = visible.length ? visible.map(m => `<article class="manual"><div class="manual-meta"><span>${m.machine} · ${m.category}</span><span class="badge ${levelClass[m.level]}">${m.level}</span></div><h3>${m.title}</h3><p>${m.summary}</p><div class="code">${m.code}</div></article>`).join('') : '<div class="empty">검색 결과가 없습니다.<br />다른 증상이나 에러 코드로 다시 검색해 주세요.</div>';
       }
+      function showMachine(machine, addHistory = true) {
+        selectedMachine = machine;
+        detailTitle.textContent = machine || '전체 기계 검색';
+        homeView.hidden = true;
+        detail.hidden = false;
+        if (addHistory) history.pushState({ machine, page: 'detail' }, '', machine ? `#${machine.toLowerCase().replaceAll(' ', '-')}` : '#search');
+        render();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      function showHome() { selectedMachine = ''; homeView.hidden = false; detail.hidden = true; }
       search.addEventListener('input', render);
-      document.querySelectorAll('.machine').forEach(button => button.addEventListener('click', () => { selectedMachine = selectedMachine === button.dataset.machine ? '' : button.dataset.machine; document.querySelectorAll('.machine').forEach(item => item.classList.toggle('active', item.dataset.machine === selectedMachine)); render(); document.querySelector('#manuals').scrollIntoView({ behavior:'smooth', block:'start' }); }));
+      document.querySelector('#home-search').addEventListener('keydown', event => {
+        if (event.key !== 'Enter') return;
+        const term = event.currentTarget.value.trim();
+        showMachine('');
+        search.value = term;
+        render();
+        search.focus();
+      });
+      document.querySelectorAll('.machine').forEach(button => button.addEventListener('click', () => showMachine(button.dataset.machine)));
+      document.querySelector('#back-button').addEventListener('click', () => history.back());
+      window.addEventListener('popstate', event => event.state?.page === 'detail' ? showMachine(event.state.machine, false) : showHome());
+      if (location.hash === '#m-ai') showMachine('M AI', false);
+      if (location.hash === '#millfix') showMachine('MillFix', false);
+      if (location.hash === '#search') showMachine('', false);
       document.querySelectorAll('.filter').forEach(button => button.addEventListener('click', () => { selectedCategory = button.dataset.category; document.querySelectorAll('.filter').forEach(item => item.classList.toggle('active', item === button)); render(); }));
       render();
     </script>
