@@ -3,10 +3,104 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1f3a" />
     <title>젠코어 기계 대응 매뉴얼</title>
+    <style>
+      :root { --navy:#0b1f3a; --blue:#1677d2; --sky:#eaf4ff; --ink:#172033; --muted:#68758a; --line:#dce3ec; --danger:#d93b45; --warning:#d97914; }
+      * { box-sizing:border-box; }
+      body { margin:0; color:var(--ink); background:#f5f7fa; font-family:Arial,"Malgun Gothic",sans-serif; }
+      header { background:linear-gradient(120deg,#081a32,#123c68); color:#fff; padding:26px max(24px,calc((100% - 1120px)/2)); }
+      .brand { display:flex; align-items:center; gap:11px; font-size:14px; font-weight:700; letter-spacing:.03em; opacity:.9; }
+      .mark { display:grid; place-items:center; width:30px; height:30px; border:1px solid #72b8f6; border-radius:8px; color:#9dd2ff; }
+      h1 { margin:24px 0 8px; font-size:clamp(28px,4vw,43px); letter-spacing:-.045em; }
+      .intro { margin:0; color:#c5dbf0; font-size:16px; }
+      main { width:min(1120px,calc(100% - 40px)); margin:0 auto; padding:30px 0 60px; }
+      .search-panel { margin-top:-1px; padding:22px; border-radius:0 0 16px 16px; background:#fff; box-shadow:0 12px 30px #18304f1c; }
+      .search-label { display:block; margin-bottom:10px; font-weight:700; font-size:14px; }
+      .search-wrap { display:flex; align-items:center; gap:12px; border:2px solid #a6c8e8; border-radius:11px; padding:0 16px; transition:.2s; }
+      .search-wrap:focus-within { border-color:var(--blue); box-shadow:0 0 0 4px #1677d21a; }
+      .search-icon { color:var(--blue); font-size:21px; }
+      input { width:100%; border:0; outline:0; padding:16px 0; color:var(--ink); font-size:16px; background:transparent; }
+      .hint { margin:11px 0 0; color:var(--muted); font-size:13px; }
+      .section-heading { display:flex; align-items:end; justify-content:space-between; gap:20px; margin:36px 0 15px; }
+      h2 { margin:0; font-size:21px; letter-spacing:-.03em; }
+      .count { color:var(--muted); font-size:14px; }
+      .machine-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+      .machine { min-height:138px; border:1px solid var(--line); border-radius:14px; padding:20px; color:inherit; text-align:left; background:#fff; cursor:pointer; transition:.2s; }
+      .machine:hover,.machine.active { border-color:var(--blue); box-shadow:0 8px 22px #153d6615; transform:translateY(-2px); }
+      .machine.active { background:var(--sky); }
+      .machine-top { display:flex; align-items:center; justify-content:space-between; }
+      .machine-name { font-size:23px; font-weight:800; letter-spacing:-.04em; }
+      .arrow { color:var(--blue); font-size:24px; }
+      .machine p { margin:12px 0 0; color:var(--muted); font-size:14px; }
+      .filters { display:flex; flex-wrap:wrap; gap:8px; }
+      .filter { border:1px solid var(--line); border-radius:100px; padding:8px 13px; color:#46536a; background:#fff; cursor:pointer; font-size:14px; }
+      .filter:hover,.filter.active { color:#fff; border-color:var(--navy); background:var(--navy); }
+      .manuals { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px; }
+      .manual { display:flex; flex-direction:column; min-height:210px; border:1px solid var(--line); border-radius:13px; padding:18px; background:#fff; }
+      .manual-meta { display:flex; align-items:center; justify-content:space-between; gap:8px; color:var(--muted); font-size:12px; }
+      .badge { border-radius:99px; padding:5px 8px; font-size:12px; font-weight:700; }
+      .urgent { color:#a9232b; background:#ffe8e9; } .caution { color:#a85a08; background:#fff0db; } .normal { color:#17643b; background:#e4f7eb; }
+      .manual h3 { margin:17px 0 8px; font-size:17px; letter-spacing:-.025em; }
+      .manual p { margin:0; color:var(--muted); font-size:14px; line-height:1.55; }
+      .code { margin-top:auto; padding-top:16px; color:#4c5a6e; font-family:Consolas,monospace; font-size:12px; }
+      .empty { grid-column:1/-1; padding:44px 20px; border:1px dashed #b9c7d8; border-radius:13px; color:var(--muted); text-align:center; background:#fff; }
+      footer { margin-top:42px; color:#8490a1; text-align:center; font-size:13px; }
+      @media (max-width:760px) { main { width:min(100% - 28px,1120px); } header { padding:22px 20px; } .machine-grid,.manuals { grid-template-columns:1fr; } .section-heading { align-items:start; flex-direction:column; gap:12px; } .search-panel { padding:17px; } }
+    </style>
   </head>
   <body>
-    <h1>젠코어 기계 대응 매뉴얼</h1>
-    <p>M AI</p>
+    <header>
+      <div class="brand"><span class="mark">G</span> GENCORE SERVICE</div>
+      <h1>젠코어 기계 대응 매뉴얼</h1>
+      <p class="intro">고장 증상과 에러 코드를 검색해, 현장에서 바로 대응하세요.</p>
+    </header>
+    <main>
+      <section class="search-panel" aria-label="매뉴얼 검색">
+        <label class="search-label" for="search">무엇이 문제인가요?</label>
+        <div class="search-wrap"><span class="search-icon">⌕</span><input id="search" type="search" placeholder="증상, 에러 코드, 부품명을 입력하세요" autocomplete="off" /></div>
+        <p class="hint">예: 전원이 켜지지 않음 · 통신 오류 · 센서 · E-102</p>
+      </section>
+
+      <section>
+        <div class="section-heading"><h2>기계 선택</h2><span class="count">기계를 선택해 결과를 좁힐 수 있습니다.</span></div>
+        <div class="machine-grid">
+          <button class="machine" type="button" data-machine="M AI"><span class="machine-top"><span class="machine-name">M AI</span><span class="arrow">→</span></span><p>M AI 장비의 고장 증상과 대응 절차를 확인합니다.</p></button>
+          <button class="machine" type="button" data-machine="MillFix"><span class="machine-top"><span class="machine-name">MillFix</span><span class="arrow">→</span></span><p>MillFix 장비의 고장 증상과 대응 절차를 확인합니다.</p></button>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-heading"><h2>빠른 매뉴얼 찾기</h2><span id="result-count" class="count"></span></div>
+        <div class="filters" aria-label="카테고리 필터">
+          <button class="filter active" type="button" data-category="전체">전체</button><button class="filter" type="button" data-category="전원·통신">전원·통신</button><button class="filter" type="button" data-category="구동·모터">구동·모터</button><button class="filter" type="button" data-category="센서">센서</button><button class="filter" type="button" data-category="소프트웨어">소프트웨어</button>
+        </div>
+        <div id="manuals" class="manuals"></div>
+      </section>
+      <footer>GENCORE · 현장 대응 매뉴얼</footer>
+    </main>
+    <script>
+      const manuals = [
+        { machine:'M AI', category:'전원·통신', level:'긴급', title:'전원이 켜지지 않음', summary:'전원 공급과 비상정지 상태를 우선 점검합니다.', code:'PWR-001 · 전원부', keywords:'전원 전기 차단기 비상정지 켜지지' },
+        { machine:'M AI', category:'소프트웨어', level:'주의', title:'통신 연결 실패', summary:'네트워크 케이블과 장비 IP 설정을 확인합니다.', code:'E-102 · 통신', keywords:'통신 네트워크 랜 케이블 IP 연결 오류' },
+        { machine:'M AI', category:'센서', level:'일반', title:'센서 인식 오류', summary:'센서 오염과 커넥터 체결 상태를 확인합니다.', code:'SEN-013 · 센서', keywords:'센서 인식 감지 커넥터 오염' },
+        { machine:'MillFix', category:'구동·모터', level:'긴급', title:'스핀들 구동이 멈춤', summary:'과부하 알람과 모터 드라이버 상태를 확인합니다.', code:'E-301 · 스핀들', keywords:'스핀들 모터 구동 정지 과부하' },
+        { machine:'MillFix', category:'전원·통신', level:'주의', title:'제어 화면이 꺼짐', summary:'제어반 전원 및 화면 연결 상태를 점검합니다.', code:'PWR-014 · 제어반', keywords:'화면 모니터 전원 제어반 꺼짐' },
+        { machine:'MillFix', category:'센서', level:'일반', title:'원점 복귀가 되지 않음', summary:'리미트 센서와 축 이동 경로를 점검합니다.', code:'SEN-221 · 리미트', keywords:'원점 복귀 리미트 축 이동 센서' }
+      ];
+      let selectedMachine = '', selectedCategory = '전체';
+      const search = document.querySelector('#search'), list = document.querySelector('#manuals'), count = document.querySelector('#result-count');
+      const levelClass = { 긴급:'urgent', 주의:'caution', 일반:'normal' };
+      function render() {
+        const term = search.value.trim().toLowerCase();
+        const visible = manuals.filter(m => (!selectedMachine || m.machine === selectedMachine) && (selectedCategory === '전체' || m.category === selectedCategory) && (!term || Object.values(m).join(' ').toLowerCase().includes(term)));
+        count.textContent = `${visible.length}건의 매뉴얼`;
+        list.innerHTML = visible.length ? visible.map(m => `<article class="manual"><div class="manual-meta"><span>${m.machine} · ${m.category}</span><span class="badge ${levelClass[m.level]}">${m.level}</span></div><h3>${m.title}</h3><p>${m.summary}</p><div class="code">${m.code}</div></article>`).join('') : '<div class="empty">검색 결과가 없습니다.<br />다른 증상이나 에러 코드로 다시 검색해 주세요.</div>';
+      }
+      search.addEventListener('input', render);
+      document.querySelectorAll('.machine').forEach(button => button.addEventListener('click', () => { selectedMachine = selectedMachine === button.dataset.machine ? '' : button.dataset.machine; document.querySelectorAll('.machine').forEach(item => item.classList.toggle('active', item.dataset.machine === selectedMachine)); render(); document.querySelector('#manuals').scrollIntoView({ behavior:'smooth', block:'start' }); }));
+      document.querySelectorAll('.filter').forEach(button => button.addEventListener('click', () => { selectedCategory = button.dataset.category; document.querySelectorAll('.filter').forEach(item => item.classList.toggle('active', item === button)); render(); }));
+      render();
+    </script>
   </body>
 </html>
