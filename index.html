@@ -25,7 +25,7 @@
       .section-heading { display:flex; align-items:end; justify-content:space-between; gap:20px; margin:36px 0 15px; }
       h2 { margin:0; font-size:21px; letter-spacing:-.03em; }
       .count { color:var(--muted); font-size:14px; }
-      .machine-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+      .machine-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
       .machine { min-height:138px; border:1px solid var(--line); border-radius:14px; padding:20px; color:inherit; text-align:left; background:#fff; cursor:pointer; transition:.2s; }
       .machine:hover,.machine.active { border-color:var(--blue); box-shadow:0 8px 22px #153d6615; transform:translateY(-2px); }
       .machine.active { background:var(--sky); }
@@ -42,15 +42,39 @@
       .filter:hover,.filter.active { color:#fff; border-color:var(--navy); background:var(--navy); }
       .manuals { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px; }
       .manual { display:flex; flex-direction:column; min-height:210px; border:1px solid var(--line); border-radius:13px; padding:18px; background:#fff; }
+      .manual-button { width:100%; color:inherit; text-align:left; font:inherit; cursor:pointer; transition:.2s; }
+      .manual-button:hover,.manual-button:focus-visible { border-color:var(--blue); box-shadow:0 8px 22px #153d6615; transform:translateY(-2px); outline:0; }
       .manual-meta { display:flex; align-items:center; justify-content:space-between; gap:8px; color:var(--muted); font-size:12px; }
       .badge { border-radius:99px; padding:5px 8px; font-size:12px; font-weight:700; }
       .urgent { color:#a9232b; background:#ffe8e9; } .caution { color:#a85a08; background:#fff0db; } .normal { color:#17643b; background:#e4f7eb; }
       .manual h3 { margin:17px 0 8px; font-size:17px; letter-spacing:-.025em; }
       .manual p { margin:0; color:var(--muted); font-size:14px; line-height:1.55; }
+      .manual-summary { display:grid; gap:8px; }
+      .manual-summary p + p { margin-top:0; }
+      .manual-summary strong { color:var(--ink); }
+      .manual-summary .emphasis { color:var(--danger); font-weight:800; }
       .code { margin-top:auto; padding-top:16px; color:#4c5a6e; font-family:Consolas,monospace; font-size:12px; }
+      .manual-link { margin-top:auto; padding-top:18px; color:var(--blue); font-size:14px; font-weight:700; }
       .empty { grid-column:1/-1; padding:44px 20px; border:1px dashed #b9c7d8; border-radius:13px; color:var(--muted); text-align:center; background:#fff; }
+      .manual-article { width:100%; border:1px solid var(--line); border-radius:16px; padding:clamp(24px,4vw,44px); background:#fff; }
+      .manual-article .manual-meta { margin-bottom:18px; }
+      .manual-article-title { margin:0 0 30px; font-size:clamp(28px,5vw,44px); letter-spacing:-.05em; }
+      .manual-sections { display:grid; grid-template-columns:1fr; gap:16px; }
+      .manual-section { border:1px solid #cfe0f1; border-radius:13px; padding:24px; background:#f8fbff; }
+      .manual-section h3 { margin:0 0 14px; color:var(--navy); font-size:18px; letter-spacing:-.03em; }
+      .manual-section p { margin:0; color:var(--ink); font-size:16px; line-height:1.75; }
+      .manual-section .emphasis { color:var(--danger); font-weight:800; }
+      .manual-media-row { display:flex; align-items:flex-start; gap:16px; margin-top:20px; }
+      .manual-media { display:block; flex:0 0 auto; width:auto; max-width:100%; height:300px; border:1px solid #b9cfe5; border-radius:10px; background:transparent; object-fit:contain; }
+      img.manual-media { cursor:zoom-in; }
+      .manual-section .manual-media-description { margin-top:16px; }
+      .image-lightbox[hidden] { display:none; }
+      .image-lightbox { position:fixed; z-index:20; inset:0; display:grid; place-items:center; padding:24px; background:#071a30e6; }
+      .image-lightbox-image { display:block; max-width:100%; max-height:calc(100vh - 48px); border-radius:10px; object-fit:contain; }
+      .image-lightbox-close { position:fixed; top:18px; right:18px; width:42px; height:42px; border:1px solid #ffffff66; border-radius:50%; color:#fff; background:#071a30cc; cursor:pointer; font-size:26px; line-height:1; }
+      .image-lightbox-close:hover,.image-lightbox-close:focus-visible { border-color:#fff; outline:0; }
       footer { margin-top:42px; color:#8490a1; text-align:center; font-size:13px; }
-      @media (max-width:760px) { main { width:min(100% - 28px,1120px); } header { padding:22px 20px; } .machine-grid,.manuals { grid-template-columns:1fr; } .section-heading { align-items:start; flex-direction:column; gap:12px; } .search-panel { padding:17px; } }
+      @media (max-width:760px) { main { width:min(100% - 28px,1120px); } header { padding:22px 20px; } .machine-grid,.manuals,.manual-sections { grid-template-columns:1fr; } .section-heading { align-items:start; flex-direction:column; gap:12px; } .search-panel { padding:17px; } .manual-section { padding:20px; } .manual-media-row { flex-direction:column; } .manual-media { max-width:100%; } }
     </style>
   </head>
   <body>
@@ -71,6 +95,7 @@
           <div class="machine-grid">
             <button class="machine" type="button" data-machine="M AI"><span class="machine-top"><span class="machine-name">M AI</span><span class="arrow">→</span></span><p>M AI 장비의 고장 증상과 대응 절차를 확인합니다.</p></button>
             <button class="machine" type="button" data-machine="MillFix"><span class="machine-top"><span class="machine-name">MillFix</span><span class="arrow">→</span></span><p>MillFix 장비의 고장 증상과 대응 절차를 확인합니다.</p></button>
+            <button class="machine" type="button" data-machine="공통"><span class="machine-top"><span class="machine-name">공통</span><span class="arrow">→</span></span><p>모든 장비에 공통으로 적용되는 대응 절차를 확인합니다.</p></button>
           </div>
         </section>
       </div>
@@ -84,34 +109,90 @@
         </section>
         <div class="section-heading"><h2>매뉴얼 목록</h2><span id="result-count" class="count"></span></div>
         <div class="filters" aria-label="카테고리 필터">
-          <button class="filter active" type="button" data-category="전체">전체</button><button class="filter" type="button" data-category="전원·통신">전원·통신</button><button class="filter" type="button" data-category="구동·모터">구동·모터</button><button class="filter" type="button" data-category="센서">센서</button><button class="filter" type="button" data-category="소프트웨어">소프트웨어</button>
+          <button class="filter active" type="button" data-category="전체">전체</button><button class="filter" type="button" data-category="전원·통신">전원·통신</button><button class="filter" type="button" data-category="구동·모터">구동·모터</button><button class="filter" type="button" data-category="센서">센서</button><button class="filter" type="button" data-category="공압">공압</button><button class="filter" type="button" data-category="소프트웨어">소프트웨어</button>
         </div>
         <div id="manuals" class="manuals"></div>
       </section>
+      <section id="manual-view" class="machine-detail" hidden>
+        <button id="manual-back-button" class="back" type="button">← 매뉴얼 목록으로</button>
+        <article class="manual-article">
+          <div id="manual-article-meta" class="manual-meta"></div>
+          <h2 id="manual-article-title" class="manual-article-title"></h2>
+          <div id="manual-article-content"></div>
+        </article>
+      </section>
+      <div id="image-lightbox" class="image-lightbox" hidden>
+        <div role="dialog" aria-modal="true" aria-label="사진 확대 보기">
+          <button id="image-lightbox-close" class="image-lightbox-close" type="button" aria-label="확대 사진 닫기">×</button>
+          <img id="image-lightbox-image" class="image-lightbox-image" alt="" />
+        </div>
+      </div>
       <footer>GENCORE · 현장 대응 매뉴얼</footer>
     </main>
     <script>
-      const manuals = [];
+      const manuals = [
+        {
+          machine: 'M AI',
+          category: '전원·통신',
+          title: 'M AI 캘리브레이션 통전 관련 오류',
+          details: `<div class="manual-sections"><section class="manual-section"><h3>정상 반응</h3><p>M AI 통전 버튼 (checking for cleaning) 클릭 시 통전 케이블을 핀-확인 부분에 <span class="emphasis">'연결'</span> 시켜야 통전 신호가 활성화 되어야 됨.</p></section><section class="manual-section"><h3>증상</h3><p>M AI 통전 버튼(checking for cleaning) 클릭 후 통전 케이블 <span class="emphasis">'대지도 않았는데 계속 통전 신호'</span>가 활성화 되고 <span class="emphasis">'툴 터치 버튼이 계속 눌려있음.'</span></p><div class="manual-media-row"><video class="manual-media" controls playsinline preload="metadata" aria-label="M AI 통전 관련 오류 증상 영상"><source src="assets/media/m-ai-calibration-conductivity-error.mp4" type="video/mp4" />이 브라우저는 동영상 재생을 지원하지 않습니다.</video><img class="manual-media" src="assets/media/m-ai-calibration-checking-screen.png" alt="M AI checking for cleaning 화면" loading="lazy" /></div></section><section class="manual-section"><h3>원인</h3><p>스핀들 내부에 습기가 차서 발생하는 현상.</p></section><section class="manual-section"><h3>해결 방안</h3><p>spindle rotation test 버튼 누른 뒤 <span class="emphasis">'30분간 돌려 내부 습기를 말려준다'</span> (혹은 Warm-up 30분 가량 진행)</p></section></div>`,
+          code: ''
+        },
+        {
+          machine: 'M AI',
+          category: '센서',
+          title: '호밍 중 X-limit 계속 발생',
+          details: `<div class="manual-sections"><section class="manual-section"><h3>정상 반응</h3><p>호밍 시 X축이 우선 왼쪽으로 이동후 정상 호밍됨.</p></section><section class="manual-section"><h3>증상</h3><p>X축이 오른쪽으로 이동하고 X-limit 알람 발생.</p><div class="manual-media-row"><video class="manual-media" controls playsinline preload="metadata" aria-label="호밍 중 X-limit 발생 증상 영상"><source src="assets/media/m-ai-x-limit-symptom.mp4" type="video/mp4" />이 브라우저는 동영상 재생을 지원하지 않습니다.</video></div></section><section class="manual-section"><h3>원인</h3><p>X축 센서가 먼지로 덮여있음.</p><div class="manual-media-row"><video class="manual-media" controls playsinline preload="metadata" aria-label="호밍 중 X-limit 발생 원인 영상"><source src="assets/media/m-ai-x-limit-cause.mp4" type="video/mp4" />이 브라우저는 동영상 재생을 지원하지 않습니다.</video></div><p class="manual-media-description">원래 앞에 아무것도 없을 때는 빛이 나고, x축이 이동하면서 앞을 가리면 불빛이 꺼져야됨. 지금은 앞에 아무것도 없는데도 빛이 꺼져있음.</p></section><section class="manual-section"><h3>해결 방안</h3><p>X축 센서 앞의 먼지를 마른 수건으로 청소했더니 정상 작동함.</p></section></div>`,
+          code: ''
+        },
+        {
+          machine: '공통',
+          category: '공압',
+          title: '기압 잘 안 올라가는 현상',
+          details: `<div class="manual-sections"><section class="manual-section"><h3>정상 반응</h3><p>기압이 0.5 밑으로 가기 전에 컴프레서가 작동해서 정상 범위 내에서 유지됨</p></section><section class="manual-section"><h3>증상</h3><p>기압이 안 올라감</p><div class="manual-media-row"><img class="manual-media" src="assets/media/common-pressure-symptom.jpg" alt="기압이 안 올라가는 증상 화면" loading="lazy" /></div></section><section class="manual-section"><h3>원인</h3><p>컴프레서에도 레귤레이터가 있는 모델이 있음. 해당 레귤레이터에서 출력을 낮게 잡으면 다른 곳에서 아무리 높여도 컴프레서 출력 자체가 약해짐.</p><div class="manual-media-row"><img class="manual-media" src="assets/media/common-compressor-regulator-cause.png" alt="컴프레서 레귤레이터 원인 위치" loading="lazy" /></div></section><section class="manual-section"><h3>해결 방안</h3><p>컴프레서의 레귤레이터 출력을 높임.</p><div class="manual-media-row"><img class="manual-media" src="assets/media/common-compressor-regulator-solution.png" alt="컴프레서 레귤레이터 출력 조정 위치" loading="lazy" /></div></section></div>`,
+          code: ''
+        }
+      ];
       let selectedMachine = '', selectedCategory = '전체';
       const search = document.querySelector('#search'), list = document.querySelector('#manuals'), count = document.querySelector('#result-count');
       const homeView = document.querySelector('#home-view'), detail = document.querySelector('#machine-detail'), detailTitle = document.querySelector('#detail-title');
+      const manualView = document.querySelector('#manual-view'), articleMeta = document.querySelector('#manual-article-meta'), articleTitle = document.querySelector('#manual-article-title'), articleContent = document.querySelector('#manual-article-content');
+      const imageLightbox = document.querySelector('#image-lightbox'), imageLightboxImage = document.querySelector('#image-lightbox-image'), imageLightboxClose = document.querySelector('#image-lightbox-close');
+      let lastImageTrigger;
       const levelClass = { 긴급:'urgent', 주의:'caution', 일반:'normal' };
       function render() {
         const term = search.value.trim().toLowerCase();
         const visible = manuals.filter(m => (!selectedMachine || m.machine === selectedMachine) && (selectedCategory === '전체' || m.category === selectedCategory) && (!term || Object.values(m).join(' ').toLowerCase().includes(term)));
         count.textContent = `${visible.length}건의 매뉴얼`;
-        list.innerHTML = visible.length ? visible.map(m => `<article class="manual"><div class="manual-meta"><span>${m.machine} · ${m.category}</span><span class="badge ${levelClass[m.level]}">${m.level}</span></div><h3>${m.title}</h3><p>${m.summary}</p><div class="code">${m.code}</div></article>`).join('') : '<div class="empty">검색 결과가 없습니다.<br />다른 증상이나 에러 코드로 다시 검색해 주세요.</div>';
+        list.innerHTML = visible.length ? visible.map(m => `<button class="manual manual-button" type="button" data-manual-index="${manuals.indexOf(m)}"><div class="manual-meta"><span>${m.machine} · ${m.category}</span>${m.level ? `<span class="badge ${levelClass[m.level]}">${m.level}</span>` : ''}</div><h3>${m.title}</h3><p>카드를 눌러 상세 내용을 확인하세요.</p><span class="manual-link">상세 보기 →</span></button>`).join('') : '<div class="empty">검색 결과가 없습니다.<br />다른 증상이나 에러 코드로 다시 검색해 주세요.</div>';
       }
       function showMachine(machine, addHistory = true) {
         selectedMachine = machine;
         detailTitle.textContent = machine || '전체 기계 검색';
         homeView.hidden = true;
         detail.hidden = false;
+        manualView.hidden = true;
         if (addHistory) history.pushState({ machine, page: 'detail' }, '', machine ? `#${machine.toLowerCase().replaceAll(' ', '-')}` : '#search');
         render();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
-      function showHome() { selectedMachine = ''; homeView.hidden = false; detail.hidden = true; }
+      function showManual(index, addHistory = true) {
+        const manual = manuals[index];
+        if (!manual) return;
+        selectedMachine = manual.machine;
+        articleMeta.textContent = `${manual.machine} · ${manual.category}`;
+        articleTitle.textContent = manual.title;
+        articleContent.innerHTML = manual.details;
+        articleContent.querySelectorAll('img.manual-media').forEach(image => { image.tabIndex = 0; image.setAttribute('role', 'button'); });
+        homeView.hidden = true;
+        detail.hidden = true;
+        manualView.hidden = false;
+        if (addHistory) history.pushState({ machine: manual.machine, index, page: 'manual' }, '', `#manual-${Number(index) + 1}`);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      function showHome() { selectedMachine = ''; homeView.hidden = false; detail.hidden = true; manualView.hidden = true; }
+      function openImageLightbox(image) { lastImageTrigger = image; imageLightboxImage.src = image.currentSrc || image.src; imageLightboxImage.alt = image.alt; imageLightbox.hidden = false; imageLightboxClose.focus(); }
+      function closeImageLightbox() { imageLightbox.hidden = true; imageLightboxImage.removeAttribute('src'); lastImageTrigger?.focus(); }
       search.addEventListener('input', render);
       document.querySelector('#home-search').addEventListener('keydown', event => {
         if (event.key !== 'Enter') return;
@@ -123,10 +204,26 @@
       });
       document.querySelectorAll('.machine').forEach(button => button.addEventListener('click', () => showMachine(button.dataset.machine)));
       document.querySelector('#back-button').addEventListener('click', () => history.back());
-      window.addEventListener('popstate', event => event.state?.page === 'detail' ? showMachine(event.state.machine, false) : showHome());
-      if (location.hash === '#m-ai') showMachine('M AI', false);
-      if (location.hash === '#millfix') showMachine('MillFix', false);
-      if (location.hash === '#search') showMachine('', false);
+      document.querySelector('#manual-back-button').addEventListener('click', () => history.state?.page === 'manual' ? history.back() : showMachine(selectedMachine, false));
+      list.addEventListener('click', event => { const button = event.target.closest('[data-manual-index]'); if (button) showManual(button.dataset.manualIndex); });
+      document.addEventListener('click', event => { const image = event.target.closest('img.manual-media'); if (image) openImageLightbox(image); });
+      document.addEventListener('keydown', event => { if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('img.manual-media')) { event.preventDefault(); openImageLightbox(event.target); } if (event.key === 'Escape' && !imageLightbox.hidden) closeImageLightbox(); });
+      imageLightboxClose.addEventListener('click', closeImageLightbox);
+      imageLightbox.addEventListener('click', event => { if (event.target === imageLightbox) closeImageLightbox(); });
+      window.addEventListener('popstate', event => {
+        if (event.state?.page === 'manual') showManual(event.state.index, false);
+        else if (event.state?.page === 'detail') showMachine(event.state.machine, false);
+        else routeFromHash();
+      });
+      function routeFromHash() {
+        if (location.hash === '#m-ai') showMachine('M AI', false);
+        else if (location.hash === '#millfix') showMachine('MillFix', false);
+        else if (location.hash === '#common') showMachine('공통', false);
+        else if (location.hash === '#search') showMachine('', false);
+        else if (/^#manual-\d+$/.test(location.hash)) showManual(Number(location.hash.replace('#manual-', '')) - 1, false);
+        else showHome();
+      }
+      routeFromHash();
       document.querySelectorAll('.filter').forEach(button => button.addEventListener('click', () => { selectedCategory = button.dataset.category; document.querySelectorAll('.filter').forEach(item => item.classList.toggle('active', item === button)); render(); }));
       render();
     </script>
