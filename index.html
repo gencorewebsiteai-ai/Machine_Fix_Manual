@@ -65,6 +65,11 @@
       .manual-section p { margin:0; color:var(--ink); font-size:16px; line-height:1.75; }
       .manual-section .emphasis { color:var(--danger); font-weight:800; }
       .manual-media-row { display:flex; align-items:flex-start; gap:16px; margin-top:20px; }
+      .manual-media-column { display:flex; flex-direction:column; align-items:flex-start; gap:16px; margin-top:20px; }
+      .manual-media-explanation { display:flex; align-items:center; gap:20px; }
+      .manual-media-explanation + .manual-media-explanation { padding-top:16px; border-top:1px solid #cfe0f1; }
+      .manual-media-explanation .manual-media { width:auto; max-width:min(100%,260px); height:240px; }
+      .manual-media-explanation p { flex:1 1 0; }
       .manual-media { display:block; flex:0 0 auto; width:auto; max-width:100%; height:300px; border:1px solid #b9cfe5; border-radius:10px; background:transparent; object-fit:contain; }
       img.manual-media { cursor:zoom-in; }
       .manual-section .manual-media-description { margin-top:16px; }
@@ -74,7 +79,7 @@
       .image-lightbox-close { position:fixed; top:18px; right:18px; width:42px; height:42px; border:1px solid #ffffff66; border-radius:50%; color:#fff; background:#071a30cc; cursor:pointer; font-size:26px; line-height:1; }
       .image-lightbox-close:hover,.image-lightbox-close:focus-visible { border-color:#fff; outline:0; }
       footer { margin-top:42px; color:#8490a1; text-align:center; font-size:13px; }
-      @media (max-width:760px) { main { width:min(100% - 28px,1120px); } header { padding:22px 20px; } .machine-grid,.manuals,.manual-sections { grid-template-columns:1fr; } .section-heading { align-items:start; flex-direction:column; gap:12px; } .search-panel { padding:17px; } .manual-section { padding:20px; } .manual-media-row { flex-direction:column; } .manual-media { max-width:100%; } }
+      @media (max-width:760px) { main { width:min(100% - 28px,1120px); } header { padding:22px 20px; } .machine-grid,.manuals,.manual-sections { grid-template-columns:1fr; } .section-heading { align-items:start; flex-direction:column; gap:12px; } .search-panel { padding:17px; } .manual-section { padding:20px; } .manual-media-row,.manual-media-explanation { flex-direction:column; } .manual-media { max-width:100%; } }
     </style>
   </head>
   <body>
@@ -134,8 +139,15 @@
         {
           machine: 'M AI',
           category: '전원·통신',
+          title: 'M AI 부팅 관련 이슈',
+          details: `<div class="manual-sections"><section class="manual-section"><h3>증상</h3><p>후면부 전원 스위치 불빛 들어옴. 전면부 스크린 쪽 버튼을 눌러도 부팅 안 됨.</p><div class="manual-media-row"><video class="manual-media" controls playsinline preload="metadata" aria-label="M AI 부팅 관련 이슈 증상 영상"><source src="assets/media/m-ai-boot-symptom.mp4" type="video/mp4" />이 브라우저는 동영상 재생을 지원하지 않습니다.</video></div></section><section class="manual-section"><h3>가능성</h3><p>전원부에서 220V를 받으면 스크린 쪽 본체를 담당하는 SMPS는 12V짜리.</p></section><section class="manual-section"><h3>순차 확인</h3><ol><li>전원부에서 SMPS 12V로 잘 흘러가는가</li><li>SMPS 12V에서 전류가 잘 나오는가</li><li>SMPS 12V에서 나온 전기가 메인보드로 잘 가는가</li><li>메인보드 전원부에 문제가 있는가</li></ol></section><section class="manual-section"><h3>확인 결과</h3><p>1, 2, 3 전부 정상. 4번 메인보드 쪽 전원부 불빛(초록빛) 안 들어옴.</p><div class="manual-media-column"><div class="manual-media-explanation"><img class="manual-media" src="assets/media/m-ai-boot-result-2.jpeg" alt="M AI 부팅 관련 이슈 확인 결과 사진 2" loading="lazy" /><p>SMPS 12V에 불빛 들어옴 (전류 공급 잘 됨)</p></div><div class="manual-media-explanation"><img class="manual-media" src="assets/media/m-ai-boot-result-3.jpeg" alt="M AI 부팅 관련 이슈 확인 결과 사진 3" loading="lazy" /><p>SMPS 12V에 전류 체크해봄 (12V 안정적으로 잘 나옴)</p></div><div class="manual-media-explanation"><img class="manual-media" src="assets/media/m-ai-boot-result-4.jpeg" alt="M AI 부팅 관련 이슈 확인 결과 사진 4" loading="lazy" /><img class="manual-media" src="assets/media/m-ai-boot-result-4-connector.png" alt="M AI 메인보드 커넥터 확인 위치" loading="lazy" /><p>메인보드 커넥터 부분에 체크해봄 (12V 안정적으로 공급됨)</p></div><div class="manual-media-explanation"><img class="manual-media" src="assets/media/m-ai-boot-result-5.jpeg" alt="M AI 부팅 관련 이슈 확인 결과 사진 5" loading="lazy" /><p>그럼에도 여전히 메인보드에 불 안 들어옴. 메인보드 교체 요망</p></div></div></section><section class="manual-section"><h3>해결 방안</h3><p>메인보드 교체 필요함.</p></section></div>`,
+          code: ''
+        },
+        {
+          machine: 'M AI',
+          category: '전원·통신',
           title: 'M AI 캘리브레이션 통전 관련 오류',
-          details: `<div class="manual-sections"><section class="manual-section"><h3>정상 반응</h3><p>M AI 통전 버튼 (checking for cleaning) 클릭 시 통전 케이블을 핀-확인 부분에 <span class="emphasis">'연결'</span> 시켜야 통전 신호가 활성화 되어야 됨.</p></section><section class="manual-section"><h3>증상</h3><p>M AI 통전 버튼(checking for cleaning) 클릭 후 통전 케이블 <span class="emphasis">'대지도 않았는데 계속 통전 신호'</span>가 활성화 되고 <span class="emphasis">'툴 터치 버튼이 계속 눌려있음.'</span></p><div class="manual-media-row"><video class="manual-media" controls playsinline preload="metadata" aria-label="M AI 통전 관련 오류 증상 영상"><source src="assets/media/m-ai-calibration-conductivity-error.mp4" type="video/mp4" />이 브라우저는 동영상 재생을 지원하지 않습니다.</video><img class="manual-media" src="assets/media/m-ai-calibration-checking-screen.png" alt="M AI checking for cleaning 화면" loading="lazy" /></div></section><section class="manual-section"><h3>원인</h3><p>스핀들 내부에 습기가 차서 발생하는 현상.</p></section><section class="manual-section"><h3>해결 방안</h3><p>spindle rotation test 버튼 누른 뒤 <span class="emphasis">'30분간 돌려 내부 습기를 말려준다'</span> (혹은 Warm-up 30분 가량 진행)</p></section></div>`,
+          details: `<div class="manual-sections"><section class="manual-section"><h3>정상 반응</h3><p>M AI 통전 버튼 (checking for cleaning) 클릭 시 통전 케이블을 핀-확인 부분에 <span class="emphasis">'연결'</span> 시켜야 통전 신호가 활성화 되어야 됨.</p></section><section class="manual-section"><h3>증상</h3><p>M AI 통전 버튼(checking for cleaning) 클릭 후 통전 케이블 <span class="emphasis">'대지도 않았는데 계속 통전 신호'</span>가 활성화 되고 <span class="emphasis">'툴 터치 버튼이 계속 눌려있음.'</span></p><div class="manual-media-row"><video class="manual-media" controls playsinline preload="metadata" aria-label="M AI 통전 관련 오류 증상 영상"><source src="assets/media/m-ai-calibration-conductivity-error.mp4" type="video/mp4" />이 브라우저는 동영상 재생을 지원하지 않습니다.</video><img class="manual-media" src="assets/media/m-ai-calibration-checking-screen.webp" alt="M AI checking for cleaning 화면" loading="lazy" /></div></section><section class="manual-section"><h3>원인</h3><p>스핀들 내부에 습기가 차서 발생하는 현상.</p></section><section class="manual-section"><h3>해결 방안</h3><p>spindle rotation test 버튼 누른 뒤 <span class="emphasis">'30분간 돌려 내부 습기를 말려준다'</span> (혹은 Warm-up 30분 가량 진행)</p></section></div>`,
           code: ''
         },
         {
@@ -149,7 +161,7 @@
           machine: '공통',
           category: '공압',
           title: '기압 잘 안 올라가는 현상',
-          details: `<div class="manual-sections"><section class="manual-section"><h3>정상 반응</h3><p>기압이 0.5 밑으로 가기 전에 컴프레서가 작동해서 정상 범위 내에서 유지됨</p></section><section class="manual-section"><h3>증상</h3><p>기압이 안 올라감</p><div class="manual-media-row"><img class="manual-media" src="assets/media/common-pressure-symptom.jpg" alt="기압이 안 올라가는 증상 화면" loading="lazy" /></div></section><section class="manual-section"><h3>원인</h3><p>컴프레서에도 레귤레이터가 있는 모델이 있음. 해당 레귤레이터에서 출력을 낮게 잡으면 다른 곳에서 아무리 높여도 컴프레서 출력 자체가 약해짐.</p><div class="manual-media-row"><img class="manual-media" src="assets/media/common-compressor-regulator-cause.png" alt="컴프레서 레귤레이터 원인 위치" loading="lazy" /></div></section><section class="manual-section"><h3>해결 방안</h3><p>컴프레서의 레귤레이터 출력을 높임.</p><div class="manual-media-row"><img class="manual-media" src="assets/media/common-compressor-regulator-solution.png" alt="컴프레서 레귤레이터 출력 조정 위치" loading="lazy" /></div></section></div>`,
+          details: `<div class="manual-sections"><section class="manual-section"><h3>정상 반응</h3><p>기압이 0.5 밑으로 가기 전에 컴프레서가 작동해서 정상 범위 내에서 유지됨</p></section><section class="manual-section"><h3>증상</h3><p>기압이 안 올라감</p><div class="manual-media-row"><img class="manual-media" src="assets/media/common-pressure-symptom.webp" alt="기압이 안 올라가는 증상 화면" loading="lazy" /></div></section><section class="manual-section"><h3>원인</h3><p>컴프레서에도 레귤레이터가 있는 모델이 있음. 해당 레귤레이터에서 출력을 낮게 잡으면 다른 곳에서 아무리 높여도 컴프레서 출력 자체가 약해짐.</p><div class="manual-media-row"><img class="manual-media" src="assets/media/common-compressor-regulator-cause.webp" alt="컴프레서 레귤레이터 원인 위치" loading="lazy" /></div></section><section class="manual-section"><h3>해결 방안</h3><p>컴프레서의 레귤레이터 출력을 높임.</p><div class="manual-media-row"><img class="manual-media" src="assets/media/common-compressor-regulator-solution.webp" alt="컴프레서 레귤레이터 출력 조정 위치" loading="lazy" /></div></section></div>`,
           code: ''
         }
       ];
