@@ -115,6 +115,7 @@
         <div class="section-heading"><h2>매뉴얼 목록</h2><span id="result-count" class="count"></span></div>
         <div class="filters" aria-label="카테고리 필터">
           <button class="filter active" type="button" data-category="전체">전체</button><button class="filter" type="button" data-category="전원·통신">전원·통신</button><button class="filter" type="button" data-category="구동·모터">구동·모터</button><button class="filter" type="button" data-category="센서">센서</button><button class="filter" type="button" data-category="공압">공압</button><button class="filter" type="button" data-category="소프트웨어">소프트웨어</button>
+          <button class="filter" type="button" data-category="가공" data-machine-only="공통" hidden>가공</button>
         </div>
         <div id="manuals" class="manuals"></div>
       </section>
@@ -170,6 +171,13 @@
           title: '기압 잘 안 올라가는 현상',
           details: `<div class="manual-sections"><section class="manual-section"><h3>정상 반응</h3><p>기압이 0.5 밑으로 가기 전에 컴프레서가 작동해서 정상 범위 내에서 유지됨</p></section><section class="manual-section"><h3>증상</h3><p>기압이 안 올라감</p><div class="manual-media-row"><img class="manual-media" src="assets/media/common-pressure-symptom.webp" alt="기압이 안 올라가는 증상 화면" loading="lazy" /></div></section><section class="manual-section"><h3>원인</h3><p>컴프레서에도 레귤레이터가 있는 모델이 있음. 해당 레귤레이터에서 출력을 낮게 잡으면 다른 곳에서 아무리 높여도 컴프레서 출력 자체가 약해짐.</p><div class="manual-media-row"><img class="manual-media" src="assets/media/common-compressor-regulator-cause.webp" alt="컴프레서 레귤레이터 원인 위치" loading="lazy" /></div></section><section class="manual-section"><h3>해결 방안</h3><p>컴프레서의 레귤레이터 출력을 높임.</p><div class="manual-media-row"><img class="manual-media" src="assets/media/common-compressor-regulator-solution.webp" alt="컴프레서 레귤레이터 출력 조정 위치" loading="lazy" /></div></section></div>`,
           code: ''
+        },
+        {
+          machine: '공통',
+          category: '가공',
+          title: '지르코니아(Zirconia) 가공 시 선이 생김',
+          details: `<div class="manual-sections"><section class="manual-section"><h3>내용</h3><p>장비 문제 아님</p><div class="manual-media-row"><img class="manual-media" src="assets/media/common-zirconia-machining-lines.png" alt="지르코니아(Zirconia) 가공 시 선이 생긴 부분을 노란색으로 표시한 사진" loading="lazy" /></div></section><section class="manual-section"><h3>원인</h3><p>지르 1.0으로 피니싱 가공 시 툴이 휘어서 생기는 문제. 직경에 비해 길이가 길어(15mm, 17mm/ M AI, MillFix) 조금씩 휘면서 생김<br />M AI 1.0 메탈 툴(길이 10mm) 로 가공하면 안 생김<br />근데 그러면 두꺼운 재료에선 가공 못함</p></section><section class="manual-section"><h3>해결책</h3><p>2.0mm로 외면 피니싱 하면 안 생기지만 그건 싱글만 그럼. 브릿지에서 2mm로 가공하면 치핑날 확률 높음.<br />그냥 디자인에 따라 만곡점 지점에서 교차된 게 그림자 생기면서 강조된 경우라고 둘러대자.</p></section></div>`,
+          code: ''
         }
       ];
       let selectedMachine = '', selectedCategory = '전체';
@@ -180,6 +188,11 @@
       let lastImageTrigger;
       const levelClass = { 긴급:'urgent', 주의:'caution', 일반:'normal' };
       function render() {
+        document.querySelectorAll('.filter[data-machine-only]').forEach(button => { button.hidden = button.dataset.machineOnly !== selectedMachine; });
+        if (selectedCategory === '가공' && selectedMachine !== '공통') {
+          selectedCategory = '전체';
+          document.querySelectorAll('.filter').forEach(button => button.classList.toggle('active', button.dataset.category === selectedCategory));
+        }
         const term = search.value.trim().toLowerCase();
         const visible = manuals.filter(m => (!selectedMachine || m.machine === selectedMachine) && (selectedCategory === '전체' || m.category === selectedCategory) && (!term || Object.values(m).join(' ').toLowerCase().includes(term)));
         count.textContent = `${visible.length}건의 매뉴얼`;
