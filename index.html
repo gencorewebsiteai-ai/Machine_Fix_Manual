@@ -78,6 +78,30 @@
       .image-lightbox-image { display:block; max-width:100%; max-height:calc(100vh - 48px); border-radius:10px; object-fit:contain; }
       .image-lightbox-close { position:fixed; top:18px; right:18px; width:42px; height:42px; border:1px solid #ffffff66; border-radius:50%; color:#fff; background:#071a30cc; cursor:pointer; font-size:26px; line-height:1; }
       .image-lightbox-close:hover,.image-lightbox-close:focus-visible { border-color:#fff; outline:0; }
+      .mf-z-flow { --flow-line:#8ca9c7; }
+      .mf-z-flow .mf-z-card { border:1px solid #cfe0f1; border-radius:14px; padding:22px; background:#f8fbff; min-width:0; }
+      .mf-z-flow h3 { margin:0 0 10px; color:var(--navy); font-size:18px; line-height:1.5; }
+      .mf-z-flow p { margin:0; font-size:16px; line-height:1.8; overflow-wrap:anywhere; }
+      .mf-z-flow .mf-z-root { max-width:620px; margin:auto; text-align:center; background:var(--navy); color:#fff; border-color:var(--navy); }
+      .mf-z-flow .mf-z-root h3 { color:#fff; }
+      .mf-z-flow .mf-z-evidence { max-width:620px; margin:20px auto 0; border:1px dashed #a8bfd6; background:#fff; text-align:center; }
+      .mf-z-flow .mf-z-evidence h3 { font-size:15px; color:var(--blue); }
+      .mf-z-flow .mf-z-evidence p { font-size:15px; }
+      .mf-z-flow .mf-z-branches { display:grid; grid-template-columns:1fr 1fr; gap:36px; position:relative; padding-top:42px; }
+      .mf-z-flow .mf-z-branches::before { content:''; position:absolute; width:2px; height:21px; background:var(--flow-line); top:0; left:calc(50% - 1px); }
+      .mf-z-flow .mf-z-branches::after { content:''; position:absolute; top:20px; left:calc(25% - 9px); right:calc(25% - 9px); height:2px; background:var(--flow-line); }
+      .mf-z-flow .mf-z-branch { position:relative; min-width:0; }
+      .mf-z-flow .mf-z-branch::before { content:'↓'; position:absolute; top:-30px; left:calc(50% - 10px); color:var(--flow-line); font-size:26px; background:#fff; line-height:30px; }
+      .mf-z-flow .mf-z-condition { border-top:4px solid var(--blue); background:#eaf4ff; text-align:center; }
+      .mf-z-flow .mf-z-condition h3 { margin:0; }
+      .mf-z-flow .mf-z-arrow { display:block; text-align:center; color:var(--flow-line); font-size:28px; line-height:44px; }
+      .mf-z-flow .mf-z-solution { background:#edf8f1; border-color:#b9dbc7; }
+      @media (max-width:600px) {
+        .mf-z-flow .mf-z-branches { grid-template-columns:1fr; gap:28px; padding-top:32px; }
+        .mf-z-flow .mf-z-branches::before,.mf-z-flow .mf-z-branches::after { display:none; }
+        .mf-z-flow .mf-z-branch::before { top:-29px; }
+        .mf-z-flow .mf-z-card { padding:18px; }
+      }
       footer { margin-top:42px; color:#8490a1; text-align:center; font-size:13px; }
       @media (max-width:760px) { main { width:min(100% - 28px,1120px); } header { padding:22px 20px; } .machine-grid,.manuals,.manual-sections { grid-template-columns:1fr; } .section-heading { align-items:start; flex-direction:column; gap:12px; } .search-panel { padding:17px; } .manual-section { padding:20px; } .manual-media-row,.manual-media-explanation { flex-direction:column; } .manual-media { max-width:100%; } }
     </style>
@@ -183,14 +207,25 @@
           machine: 'MillFix',
           category: '센서',
           title: 'MillFix Z-Limit 에러 (Limit switch triggered)',
-          details: `<div class="manual-sections">
-            <section class="manual-section"><h3>증상</h3><p>밀픽스 Z-limit, Z축 에러 발생</p></section>
-            <section class="manual-section"><h3>1. 발생 양상 판단</h3><p>최초 몇 회만 Z-limit 알람이 발생하는지, 계속 Z-limit 알람이 발생하는지 확인합니다.</p></section>
-            <section class="manual-section"><h3>2. 판단에 필요한 영상</h3><p>발생 양상을 판단하기 위해 반드시 화면과 가공실을 촬영한 약 30초 분량의 영상이 필요합니다.</p></section>
-            <section class="manual-section"><h3>3-A. 최초 몇 회만 발생 — 원인</h3><p>Z축 케이블 불안정 (단선 혹은 체결 간섭)</p></section>
-            <section class="manual-section"><h3>4-A. 발생 상황</h3><p>가공 중 디스크 위에서 발생하는 경우가 있습니다.<br />스핀들이 내려온 상태에서 Z-Limit가 걸리는 것이 원인입니다.</p></section>
-            <section class="manual-section"><h3>5-A. 해결 방법</h3><p>Z축 케이블 재작업으로 해결합니다.</p></section>
-            <section class="manual-section"><h3>3-B. 계속 발생 — 원인</h3><p>노이즈 발생으로 인한 간섭</p></section>
+          details: `<div class="mf-z-flow">
+            <section class="mf-z-card mf-z-root"><h3>Z-Limit 에러 (Limit switch triggered)</h3><p>밀픽스 Z-limit, Z축 에러 발생</p></section>
+            <aside class="mf-z-card mf-z-evidence"><h3>두 발생 양상을 판단하기 위해</h3><p>반드시 화면 + 가공실 영상 약 30초가 필요합니다.</p></aside>
+            <div class="mf-z-branches">
+              <div class="mf-z-branch" role="group" aria-label="최초 몇 회만 발생하는 경우">
+                <section class="mf-z-card mf-z-condition"><h3>최초 몇 회만 Z-limit 알람 발생</h3></section>
+                <span class="mf-z-arrow" aria-hidden="true">↓</span>
+                <section class="mf-z-card"><h3>Z축 케이블 불안정</h3><p>단선 혹은 체결 간섭</p></section>
+                <span class="mf-z-arrow" aria-hidden="true">↓</span>
+                <section class="mf-z-card"><h3>가공 중 디스크 위에서 발생하는 경우</h3><p>스핀들이 내려온 상태에서 Z-Limit가 걸리는 것이 원인</p></section>
+                <span class="mf-z-arrow" aria-hidden="true">↓</span>
+                <section class="mf-z-card mf-z-solution"><h3>해결</h3><p>Z축 케이블 재작업으로 해결</p></section>
+              </div>
+              <div class="mf-z-branch" role="group" aria-label="계속 발생하는 경우">
+                <section class="mf-z-card mf-z-condition"><h3>계속 Z-limit 알람 발생</h3></section>
+                <span class="mf-z-arrow" aria-hidden="true">↓</span>
+                <section class="mf-z-card"><h3>원인</h3><p>노이즈 발생으로 인한 간섭</p></section>
+              </div>
+            </div>
           </div>`,
           code: 'Z-limit · Z축 · Limit switch triggered'
         }
