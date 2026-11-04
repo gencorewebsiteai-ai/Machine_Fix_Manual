@@ -179,6 +179,21 @@
           details: `<div class="manual-sections"><section class="manual-section"><h3>내용</h3><p>장비 문제 아님</p><div class="manual-media-row"><img class="manual-media" src="assets/media/common-zirconia-machining-lines.png" alt="지르코니아(Zirconia) 가공 시 선이 생긴 부분을 노란색으로 표시한 사진" loading="lazy" /></div></section><section class="manual-section"><h3>원인</h3><p>지르 1.0으로 피니싱 가공 시 툴이 휘어서 생기는 문제. 직경에 비해 길이가 길어(15mm, 17mm/ M AI, MillFix) 조금씩 휘면서 생김<br />M AI 1.0 메탈 툴(길이 10mm) 로 가공하면 안 생김<br />근데 그러면 두꺼운 재료에선 가공 못함</p></section><section class="manual-section"><h3>해결책</h3><p>2.0mm로 외면 피니싱 하면 안 생기지만 그건 싱글만 그럼. 브릿지에서 2mm로 가공하면 치핑날 확률 높음.<br />그냥 디자인에 따라 만곡점 지점에서 교차된 게 그림자 생기면서 강조된 경우라고 둘러대자.</p></section></div>`,
           code: ''
         }
+        , {
+          machine: 'MillFix',
+          category: '센서',
+          title: 'MillFix Z-Limit 에러 (Limit switch triggered)',
+          details: `<div class="manual-sections">
+            <section class="manual-section"><h3>증상</h3><p>밀픽스 Z-limit, Z축 에러 발생</p></section>
+            <section class="manual-section"><h3>1. 발생 양상 판단</h3><p>최초 몇 회만 Z-limit 알람이 발생하는지, 계속 Z-limit 알람이 발생하는지 확인합니다.</p></section>
+            <section class="manual-section"><h3>2. 판단에 필요한 영상</h3><p>발생 양상을 판단하기 위해 반드시 화면과 가공실을 촬영한 약 30초 분량의 영상이 필요합니다.</p></section>
+            <section class="manual-section"><h3>3-A. 최초 몇 회만 발생 — 원인</h3><p>Z축 케이블 불안정 (단선 혹은 체결 간섭)</p></section>
+            <section class="manual-section"><h3>4-A. 발생 상황</h3><p>가공 중 디스크 위에서 발생하는 경우가 있습니다.<br />스핀들이 내려온 상태에서 Z-Limit가 걸리는 것이 원인입니다.</p></section>
+            <section class="manual-section"><h3>5-A. 해결 방법</h3><p>Z축 케이블 재작업으로 해결합니다.</p></section>
+            <section class="manual-section"><h3>3-B. 계속 발생 — 원인</h3><p>노이즈 발생으로 인한 간섭</p></section>
+          </div>`,
+          code: 'Z-limit · Z축 · Limit switch triggered'
+        }
       ];
       let selectedMachine = '', selectedCategory = '전체';
       const search = document.querySelector('#search'), list = document.querySelector('#manuals'), count = document.querySelector('#result-count');
