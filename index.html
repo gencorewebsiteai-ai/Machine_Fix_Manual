@@ -94,6 +94,10 @@
       .mf-z-flow .mf-z-branch::before { content:'↓'; position:absolute; top:-30px; left:calc(50% - 10px); color:var(--flow-line); font-size:26px; background:#fff; line-height:30px; }
       .mf-z-flow .mf-z-condition { border-top:4px solid var(--blue); background:#eaf4ff; text-align:center; }
       .mf-z-flow .mf-z-condition h3 { margin:0; }
+      .mf-z-flow .mf-z-example { margin-top:12px; text-align:left; }
+      .mf-z-flow .mf-z-example summary { width:fit-content; margin:auto; color:var(--blue); cursor:pointer; font-size:15px; font-weight:700; padding:6px; }
+      .mf-z-flow .mf-z-example summary:focus-visible { outline:2px solid var(--blue); outline-offset:3px; border-radius:4px; }
+      .mf-z-flow .mf-z-example video { display:block; width:100%; height:auto; margin-top:14px; border-radius:9px; background:#000; }
       .mf-z-flow .mf-z-arrow { display:block; text-align:center; color:var(--flow-line); font-size:28px; line-height:44px; }
       .mf-z-flow .mf-z-solution { background:#edf8f1; border-color:#b9dbc7; }
       @media (max-width:600px) {
@@ -212,11 +216,11 @@
             <aside class="mf-z-card mf-z-evidence"><h3>두 발생 양상을 판단하기 위해</h3><p>반드시 화면 + 가공실 영상 약 30초가 필요합니다.</p></aside>
             <div class="mf-z-branches">
               <div class="mf-z-branch" role="group" aria-label="최초 몇 회만 발생하는 경우">
-                <section class="mf-z-card mf-z-condition"><h3>최초 몇 회만 Z-limit 알람 발생</h3></section>
+                <section class="mf-z-card mf-z-condition"><h3>최초 몇 회만 Z-limit 알람 발생</h3><details class="mf-z-example"><summary>예시 영상(클릭)</summary><video controls playsinline preload="none" aria-label="최초 몇 회만 Z-limit 알람 발생 예시 영상"><source src="assets/media/millfix-z-limit-last-22s.mp4" type="video/mp4" />이 브라우저는 동영상 재생을 지원하지 않습니다.</video></details></section>
                 <span class="mf-z-arrow" aria-hidden="true">↓</span>
                 <section class="mf-z-card"><h3>Z축 케이블 불안정</h3><p>단선 혹은 체결 간섭</p></section>
                 <span class="mf-z-arrow" aria-hidden="true">↓</span>
-                <section class="mf-z-card"><h3>가공 중 디스크 위에서 발생하는 경우</h3><p>스핀들이 내려온 상태에서 Z-Limit가 걸리는 것이 원인</p></section>
+                <section class="mf-z-card"><h3>가공 중 디스크 위에서 발생하는 이유</h3><p>가공 중 불안정한 Z축 센서의 케이블이 끊겨서 가공 중에( 디스크 위에서) 에러가 발생하는 것.</p></section>
                 <span class="mf-z-arrow" aria-hidden="true">↓</span>
                 <section class="mf-z-card mf-z-solution"><h3>해결</h3><p>Z축 케이블 재작업으로 해결</p></section>
               </div>
